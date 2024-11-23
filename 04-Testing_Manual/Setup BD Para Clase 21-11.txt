@@ -1,0 +1,99 @@
+DROP DATABASE IF EXISTS mi_bd;
+CREATE DATABASE mi_bd;
+USE mi_bd;
+
+CREATE TABLE departamentos (
+  id int AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(50)
+);
+
+CREATE TABLE empleados (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(50),
+  apellido VARCHAR(50),
+  edad INT NOT NULL,
+  salario DECIMAL(10, 2) DEFAULT 0.0,
+  correo_electronico VARCHAR(50) GENERATED ALWAYS AS (CONCAT(nombre,apellido,'@mail.com')) STORED,
+  fecha_contratacion DATE DEFAULT (CURRENT_DATE),
+  departamento_id int,
+  FOREIGN KEY (departamento_id) REFERENCES departamentos(id)
+);
+
+INSERT INTO departamentos (nombre) VALUES 
+  ('Ventas'),
+  ('Recursos Humanos'),
+  ('Contabilidad')
+;
+
+INSERT INTO empleados (nombre,apellido,edad,salario,departamento_id) VALUES
+  ('Ana', 'Rodríguez',28,3707.55,1 ),
+  ('Carlos', 'López',32,3360.53, 3 ),
+  ('Laura', 'Pérez',26,2800.75,1 ),
+  ('Martín', 'González',30,3255.26, 2),
+  ('Luis','Fernández',28,3145.80,1),
+  ('Marta','Ramírez',32,3317.00,1),
+  ('Lorena','Guzmán',26,2600.00,1)
+;
+
+DELETE FROM empleados WHERE nombre = 'Laura';
+
+CREATE TABLE clientes (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(50),
+  direccion VARCHAR(100)
+);
+
+CREATE TABLE productos (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(50),
+  precio DECIMAL(10, 2)
+);
+
+CREATE TABLE ventas (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  producto_id INT,
+  cliente_id INT,
+  cantidad INT,
+  precio_unitario DECIMAL(10, 2),
+  monto_total DECIMAL(10, 2) GENERATED ALWAYS AS ( cantidad * precio_unitario) STORED,
+  empleado_id INT,
+  FOREIGN KEY (producto_id) REFERENCES productos(id),
+  FOREIGN KEY (cliente_id) REFERENCES clientes(id),
+  FOREIGN KEY (empleado_id) REFERENCES empleados(id)
+);
+
+INSERT INTO clientes (nombre, direccion) VALUES
+  ('Juan Pérez','Alberti 1789, Mar del Plata'),
+  ('María García','Avenida 789, Ciudad del Este'),
+  ('Ana López','Beltrán 1452, Godoy Cruz'),
+  ('Carlos Sánchez','Saavedra 206, Las Heras')
+;
+
+INSERT INTO productos (nombre, precio) VALUES 
+  ('Laptop',1350.00),
+  ('Teléfono móvil',480.00),
+  ('Tablet',350.00),
+  ('Impresora',280.00)
+;
+
+INSERT INTO ventas (producto_id, cliente_id, cantidad, precio_unitario, empleado_id) VALUES 
+  (1, 1, 2, 1350.00, 1),
+  (1,1,2,1350.00,1),
+  (2,2,3,480.00,2),
+  (4,4,1,280.00,6),
+  (1,3,1,1350.00,2),
+  (3,1,2,350.00,5),
+  (2,2,1,480.00,6),
+  (4,4,2,280.00,7)
+;
+
+-- ┌  PUEDEN USAR LAS QUERIES QUE SIGUEN UNA VEZ EJECUTADO LO DE ARRIBA
+-- |  PARA VER QUE LAS TABLAS SE HAYAN GENERADO CORRECTAMENTE
+-- |  (Borren las queries de arriba y saquen los guiones a lo de abajo)
+-- V  
+
+-- Select * FROM ventas;
+-- Select * FROM productos;
+-- Select * FROM departamentos;
+-- Select * FROM empleados;
+-- Select * FROM clientes;
