@@ -9,8 +9,8 @@ public class Clase10 {
 
         int minimo = numeros[0];
 
-        for (i = 0; i < numeros.length; i++) {
-            if (minimo < numeros[i]){
+        for (int i = 0; i < numeros.length; i++) {
+            if (minimo > numeros[i]){
                 minimo = numeros[i];
             }
         }
