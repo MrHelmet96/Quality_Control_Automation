@@ -8,15 +8,5 @@ public class App {
 
         persona1.mostrarDatos();*/
 
-        //------------------
-
-        /*Auto auto1 = new Auto("Fiat","Uno",1998);
-        auto1.imprimirDatos();
-
-        Auto auto2 = new Auto("Fiat","Uno");
-        auto2.imprimirDatos();
-
-        Auto auto3 = new Auto("Fiat");
-        auto3.imprimirDatos();*/
     }
 }
